@@ -240,6 +240,7 @@ if (!window.gsap && heroHome && aboutPanel) {
 
 if (workGrid) {
   let workGridRevealed = false;
+  let workGridObserver;
 
   const revealWorkGrid = () => {
     if (workGridRevealed) {
@@ -248,6 +249,8 @@ if (workGrid) {
 
     workGridRevealed = true;
     workGrid.classList.remove("is-hidden");
+    window.removeEventListener("scroll", handleWorkGridScroll, { passive: true });
+    workGridObserver?.disconnect();
   };
 
   const revealAndScrollToWorkGrid = (event) => {
@@ -263,14 +266,20 @@ if (workGrid) {
     }
   };
 
+  const handleWorkGridScroll = () => {
+    const revealThreshold = Math.max(window.innerHeight * 0.35, 180);
+    if (window.scrollY > revealThreshold) {
+      revealWorkGrid();
+    }
+  };
+
   navWork?.addEventListener("click", revealAndScrollToWorkGrid);
 
-  const workGridObserver = new IntersectionObserver(
+  workGridObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           revealWorkGrid();
-          workGridObserver.disconnect();
         }
       });
     },
@@ -281,6 +290,7 @@ if (workGrid) {
   );
 
   workGridObserver.observe(workGrid);
+  window.addEventListener("scroll", handleWorkGridScroll, { passive: true });
 }
 
 const projectStack = document.querySelector("[data-project-stack]");
