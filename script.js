@@ -323,6 +323,8 @@ const projectThumbs = Array.from(document.querySelectorAll(".stack-thumb"));
 const experienceFlip = document.querySelector("[data-exp-flip]");
 const experienceToggleButtons = Array.from(document.querySelectorAll("[data-exp-toggle]"));
 const experienceHint = document.querySelector("[data-exp-hint]");
+const roadmapHint = document.querySelector(".roadmap-hint");
+const roadmapStops = Array.from(document.querySelectorAll(".stop"));
 
 if (window.gsap && projectStack && projectCards.length) {
   let frontIndex = 0;
@@ -580,6 +582,19 @@ if (experienceFlip && experienceToggleButtons.length) {
   });
 
   setExperienceView("experience");
+}
+
+if (roadmapHint && roadmapStops.length) {
+  const settleRoadmapHint = () => {
+    roadmapHint.classList.add("is-settled");
+  };
+
+  roadmapStops.forEach((stop) => {
+    stop.addEventListener("mouseenter", settleRoadmapHint, { once: true });
+    stop.addEventListener("focusin", settleRoadmapHint, { once: true });
+    stop.addEventListener("touchstart", settleRoadmapHint, { once: true, passive: true });
+    stop.addEventListener("click", settleRoadmapHint, { once: true });
+  });
 }
 
 const contactForm = document.querySelector("[data-contact-form]");
