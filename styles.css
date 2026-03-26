@@ -245,6 +245,17 @@ a {
   margin-top: 0;
 }
 
+.contact-section.is-hidden {
+  opacity: 0;
+  transform: translateY(36px);
+  filter: blur(4px);
+  pointer-events: none;
+  max-height: 0;
+  overflow: hidden;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .section-header {
   margin-bottom: 22px;
 }

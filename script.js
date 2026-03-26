@@ -7,7 +7,9 @@ const aboutPanel = document.querySelector("[data-about-panel]");
 const navHome = document.querySelector("[data-nav-home]");
 const navAbout = document.querySelector("[data-nav-about]");
 const navWork = document.querySelector("[data-nav-work]");
+const navContact = document.querySelector("[data-nav-contact]");
 const workGrid = document.querySelector("[data-work-grid]");
+const contactSection = document.querySelector("[data-contact-section]");
 
 let heroView = "home";
 const heroTextPieces = [title, codeSnippets, subtitle].filter(Boolean);
@@ -238,28 +240,41 @@ if (!window.gsap && heroHome && aboutPanel) {
   });
 }
 
-if (workGrid) {
-  let workGridRevealed = false;
+if (workGrid || contactSection) {
+  const gatedSections = [workGrid, contactSection].filter(Boolean);
+  let gatedSectionsRevealed = false;
   let workGridObserver;
 
-  const revealWorkGrid = () => {
-    if (workGridRevealed) {
+  const revealGatedSections = () => {
+    if (gatedSectionsRevealed) {
       return;
     }
 
-    workGridRevealed = true;
-    workGrid.classList.remove("is-hidden");
+    gatedSectionsRevealed = true;
+    gatedSections.forEach((section) => section.classList.remove("is-hidden"));
     window.removeEventListener("scroll", handleWorkGridScroll, { passive: true });
     workGridObserver?.disconnect();
   };
 
   const revealAndScrollToWorkGrid = (event) => {
     event.preventDefault();
-    revealWorkGrid();
+    revealGatedSections();
 
     const target = document.querySelector("#experience");
     if (target) {
       target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  const revealAndScrollToContact = (event) => {
+    event.preventDefault();
+    revealGatedSections();
+
+    if (contactSection) {
+      contactSection.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
@@ -272,17 +287,18 @@ if (workGrid) {
         ? 36
         : Math.max(window.innerHeight * 0.35, 180);
     if (window.scrollY > revealThreshold) {
-      revealWorkGrid();
+      revealGatedSections();
     }
   };
 
   navWork?.addEventListener("click", revealAndScrollToWorkGrid);
+  navContact?.addEventListener("click", revealAndScrollToContact);
 
   workGridObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          revealWorkGrid();
+          revealGatedSections();
         }
       });
     },
@@ -292,7 +308,11 @@ if (workGrid) {
     }
   );
 
-  workGridObserver.observe(workGrid);
+  if (workGrid) {
+    workGridObserver.observe(workGrid);
+  } else if (contactSection) {
+    workGridObserver.observe(contactSection);
+  }
   window.addEventListener("scroll", handleWorkGridScroll, { passive: true });
 }
 
