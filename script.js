@@ -8,7 +8,7 @@ const navHome = document.querySelector("[data-nav-home]");
 const navAbout = document.querySelector("[data-nav-about]");
 
 let heroView = "home";
-const heroPieces = [title, codeSnippets, image, subtitle].filter(Boolean);
+const heroTextPieces = [title, codeSnippets, subtitle].filter(Boolean);
 
 if (window.gsap && title && image && subtitle) {
   gsap.set(title, {
@@ -39,7 +39,7 @@ if (window.gsap && title && image && subtitle) {
     .to(title, {
       clipPath: "inset(0 0% 0 0)",
       opacity: 1,
-      duration: 1.8,
+      duration: 1.2,
     })
     .to(
       image,
@@ -48,19 +48,19 @@ if (window.gsap && title && image && subtitle) {
         opacity: 1,
         scale: 1,
         filter: "drop-shadow(0 18px 28px rgba(0, 0, 0, 0.12))",
-        duration: 2.2,
+        duration: 1.35,
         ease: "expo.out",
       },
-      "-=0.95"
+      "-=0.55"
     )
     .to(
       subtitle,
       {
         clipPath: "inset(0 0% 0 0)",
         opacity: 1,
-        duration: 1.7,
+        duration: 1.1,
       },
-      "-=1.35"
+      "-=0.9"
     );
 
   if (aboutPanel) {
@@ -94,12 +94,17 @@ if (window.gsap && title && image && subtitle) {
         ease: "power3.inOut",
       },
     })
-      .to(heroPieces, {
+      .to(heroTextPieces, {
         x: 220,
         opacity: 0,
-        duration: 0.95,
-        stagger: 0.05,
+        duration: 0.6,
+        stagger: 0.03,
       }, 0)
+      .to(image, {
+        x: 150,
+        opacity: 1,
+        duration: 0.68,
+      }, 0.02)
       .to(heroHome, {
         pointerEvents: "none",
         duration: 0.01,
@@ -108,8 +113,8 @@ if (window.gsap && title && image && subtitle) {
         x: 0,
         opacity: 1,
         pointerEvents: "auto",
-        duration: 1,
-      }, 0.14);
+        duration: 0.62,
+      }, 0.08);
   };
 
   const showHome = () => {
@@ -129,18 +134,24 @@ if (window.gsap && title && image && subtitle) {
         x: -120,
         opacity: 0,
         pointerEvents: "none",
-        duration: 0.7,
+        duration: 0.5,
       }, 0)
       .to(heroHome, {
         pointerEvents: "auto",
         duration: 0.01,
       }, 0.05)
-      .to(heroPieces, {
+      .to(heroTextPieces, {
         x: 0,
         opacity: 1,
-        duration: 0.95,
-        stagger: 0.04,
-      }, 0.1);
+        duration: 0.62,
+        stagger: 0.03,
+      }, 0.06);
+      gsap.to(image, {
+        x: -40,
+        opacity: 1,
+        duration: 0.62,
+        ease: "power3.inOut",
+      });
   };
 
   setNavState("home");
@@ -148,9 +159,9 @@ if (window.gsap && title && image && subtitle) {
   if (navAbout) {
     navAbout.addEventListener("click", (event) => {
       event.preventDefault();
-      document.getElementById("home")?.scrollIntoView({
+      window.scrollTo({
+        top: 0,
         behavior: "smooth",
-        block: "start",
       });
       showAbout();
     });
@@ -159,19 +170,77 @@ if (window.gsap && title && image && subtitle) {
   if (navHome) {
     navHome.addEventListener("click", (event) => {
       event.preventDefault();
-      document.getElementById("home")?.scrollIntoView({
+      window.scrollTo({
+        top: 0,
         behavior: "smooth",
-        block: "start",
       });
       showHome();
     });
   }
 }
 
+if (!window.gsap && heroHome && aboutPanel) {
+  const setFallbackNavState = (view) => {
+    navHome?.classList.toggle("is-current", view === "home");
+    navAbout?.classList.toggle("is-current", view === "about");
+  };
+
+  const showFallbackAbout = () => {
+    title.style.opacity = "0";
+    subtitle.style.opacity = "0";
+    if (codeSnippets) {
+      codeSnippets.style.opacity = "0";
+    }
+    image.style.transform = "translateX(150px)";
+    aboutPanel.style.opacity = "1";
+    aboutPanel.style.pointerEvents = "auto";
+    aboutPanel.style.transform = "translateX(0)";
+    heroHome.style.pointerEvents = "none";
+    setFallbackNavState("about");
+  };
+
+  const showFallbackHome = () => {
+    title.style.opacity = "1";
+    subtitle.style.opacity = "1";
+    if (codeSnippets) {
+      codeSnippets.style.opacity = "1";
+    }
+    image.style.transform = "translateX(0)";
+    heroHome.style.pointerEvents = "auto";
+    aboutPanel.style.opacity = "0";
+    aboutPanel.style.pointerEvents = "none";
+    aboutPanel.style.transform = "translateX(-120px)";
+    setFallbackNavState("home");
+  };
+
+  setFallbackNavState("home");
+
+  navAbout?.addEventListener("click", (event) => {
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    showFallbackAbout();
+  });
+
+  navHome?.addEventListener("click", (event) => {
+    event.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    showFallbackHome();
+  });
+}
+
 const projectStack = document.querySelector("[data-project-stack]");
 const projectCards = Array.from(document.querySelectorAll(".stack-card"));
 const projectOverlay = document.querySelector(".project-overlay");
 const projectThumbs = Array.from(document.querySelectorAll(".stack-thumb"));
+const experienceFlip = document.querySelector("[data-exp-flip]");
+const experienceToggleButtons = Array.from(document.querySelectorAll("[data-exp-toggle]"));
+const experienceHint = document.querySelector("[data-exp-hint]");
 
 if (window.gsap && projectStack && projectCards.length) {
   let frontIndex = 0;
@@ -201,7 +270,7 @@ if (window.gsap && projectStack && projectCards.length) {
 
     gsap.to(projectOverlay, {
       opacity: isExpanded ? 1 : 0,
-      duration: 0.28,
+      duration: 0.2,
       ease: "power2.out",
       onStart: () => {
         projectOverlay.style.pointerEvents = isExpanded ? "auto" : "none";
@@ -232,8 +301,8 @@ if (window.gsap && projectStack && projectCards.length) {
         rotate: offsets.rotate,
         scale: isActive ? 1.015 : offsets.scale,
         zIndex: projectCards.length - layerIndex,
-        duration: 1,
-        ease: "elastic.out(1, 0.75)",
+        duration: 0.7,
+        ease: "power3.out",
       });
 
       if (details) {
@@ -241,7 +310,7 @@ if (window.gsap && projectStack && projectCards.length) {
           height: isActive ? "auto" : 0,
           opacity: isActive ? 1 : 0,
           marginTop: isActive ? 6 : 0,
-          duration: 0.5,
+          duration: 0.32,
           ease: "power3.out",
         });
       }
@@ -361,6 +430,33 @@ projectThumbs.forEach((thumb) => {
   });
 });
 
+if (experienceFlip && experienceToggleButtons.length) {
+  const setExperienceView = (view) => {
+    experienceFlip.classList.toggle("is-skills", view === "skills");
+
+    if (experienceHint) {
+      experienceHint.textContent =
+        view === "skills"
+          ? "Click Experience to view experience"
+          : "Click Skills to view skills";
+    }
+
+    experienceToggleButtons.forEach((button) => {
+      const isActive = button.dataset.expToggle === view;
+      button.classList.toggle("is-active", isActive);
+      button.setAttribute("aria-selected", String(isActive));
+    });
+  };
+
+  experienceToggleButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      setExperienceView(button.dataset.expToggle || "experience");
+    });
+  });
+
+  setExperienceView("experience");
+}
+
 const contactForm = document.querySelector("[data-contact-form]");
 const contactFeedback = document.querySelector("[data-contact-feedback]");
 
@@ -385,7 +481,7 @@ if (contactForm && contactFeedback) {
         submitButton.textContent = "Send Message";
         submitButton.classList.remove("is-sent");
       }
-    }, 1800);
+    }, 1200);
   };
 
   contactForm.addEventListener("submit", handleContactSubmit);
