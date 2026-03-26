@@ -6,6 +6,8 @@ const heroHome = document.querySelector("[data-hero-home]");
 const aboutPanel = document.querySelector("[data-about-panel]");
 const navHome = document.querySelector("[data-nav-home]");
 const navAbout = document.querySelector("[data-nav-about]");
+const navWork = document.querySelector("[data-nav-work]");
+const workGrid = document.querySelector("[data-work-grid]");
 
 let heroView = "home";
 const heroTextPieces = [title, codeSnippets, subtitle].filter(Boolean);
@@ -23,10 +25,10 @@ if (window.gsap && title && image && subtitle) {
 
   gsap.set(image, {
     x: -40,
-    y: 78,
+    y: 112,
     opacity: 0,
-    scale: 0.985,
-    filter: "drop-shadow(0 24px 34px rgba(0, 0, 0, 0.08))",
+    scale: 0.97,
+    filter: "drop-shadow(0 32px 42px rgba(0, 0, 0, 0.08))",
   });
 
   const heroTimeline = gsap.timeline({
@@ -39,7 +41,8 @@ if (window.gsap && title && image && subtitle) {
     .to(title, {
       clipPath: "inset(0 0% 0 0)",
       opacity: 1,
-      duration: 1.2,
+      duration: 1.85,
+      ease: "power2.out",
     })
     .to(
       image,
@@ -48,19 +51,20 @@ if (window.gsap && title && image && subtitle) {
         opacity: 1,
         scale: 1,
         filter: "drop-shadow(0 18px 28px rgba(0, 0, 0, 0.12))",
-        duration: 1.35,
+        duration: 2.15,
         ease: "expo.out",
       },
-      "-=0.55"
+      "-=0.6"
     )
     .to(
       subtitle,
       {
         clipPath: "inset(0 0% 0 0)",
         opacity: 1,
-        duration: 1.1,
+        duration: 1.7,
+        ease: "power2.out",
       },
-      "-=0.9"
+      "-=1.1"
     );
 
   if (aboutPanel) {
@@ -232,6 +236,51 @@ if (!window.gsap && heroHome && aboutPanel) {
     });
     showFallbackHome();
   });
+}
+
+if (workGrid) {
+  let workGridRevealed = false;
+
+  const revealWorkGrid = () => {
+    if (workGridRevealed) {
+      return;
+    }
+
+    workGridRevealed = true;
+    workGrid.classList.remove("is-hidden");
+  };
+
+  const revealAndScrollToWorkGrid = (event) => {
+    event.preventDefault();
+    revealWorkGrid();
+
+    const target = document.querySelector("#experience");
+    if (target) {
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
+  navWork?.addEventListener("click", revealAndScrollToWorkGrid);
+
+  const workGridObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          revealWorkGrid();
+          workGridObserver.disconnect();
+        }
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: "0px 0px -10% 0px",
+    }
+  );
+
+  workGridObserver.observe(workGrid);
 }
 
 const projectStack = document.querySelector("[data-project-stack]");

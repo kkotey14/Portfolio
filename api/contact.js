@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Portfolio Contact <onboarding@resend.dev>",
+        from: "Kingsley Portfolio <contact@kkotey.com>",
         to: ["kkotey475@gmail.com"],
         reply_to: trimmedEmail,
         subject: `Portfolio message from ${trimmedName}`,

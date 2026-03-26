@@ -227,6 +227,17 @@ a {
   grid-template-columns: minmax(0, 620px) 400px;
   gap: 40px;
   align-items: start;
+  transition:
+    opacity 280ms ease,
+    transform 320ms ease,
+    filter 320ms ease;
+}
+
+.work-grid.is-hidden {
+  opacity: 0;
+  transform: translateY(36px);
+  filter: blur(4px);
+  pointer-events: none;
 }
 
 .section-header {
