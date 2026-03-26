@@ -637,18 +637,18 @@
               Send a message for freelance work, collaborations, or product ideas.
             </p>
           </div>
-          <form class="contact-form" data-contact-form>
+          <form class="contact-form" data-contact-form novalidate>
             <label>
               <span>Name</span>
-              <input type="text" name="name" placeholder="Your name" />
+              <input type="text" name="name" placeholder="Your name" autocomplete="name" required />
             </label>
             <label>
               <span>Email</span>
-              <input type="email" name="email" placeholder="your@email.com" />
+              <input type="email" name="email" placeholder="your@email.com" autocomplete="email" required />
             </label>
             <label class="contact-message">
               <span>Message</span>
-              <textarea name="message" rows="6" placeholder="Tell me what's on your mind"></textarea>
+              <textarea name="message" rows="6" placeholder="Tell me what's on your mind" required></textarea>
             </label>
             <button type="submit" class="contact-submit">Send Message</button>
             <p class="contact-feedback" data-contact-feedback aria-live="polite"></p>
