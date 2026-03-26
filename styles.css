@@ -1687,7 +1687,7 @@ a {
   .work-grid {
     width: min(calc(100% - 24px), 1100px);
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 22px;
   }
 
   .contact-section {
@@ -1699,7 +1699,7 @@ a {
   }
 
   .projects-showcase {
-    margin-top: 18px;
+    margin-top: 8px;
     width: 100%;
     max-width: none;
   }
@@ -1763,7 +1763,7 @@ a {
   }
 
   .hero-section {
-    margin-top: 8px;
+    margin-top: 6px;
   }
 
   .hero-title {
@@ -1777,9 +1777,17 @@ a {
   }
 
   .hero-subtitle {
-    margin: -8px auto -18px;
+    margin: -12px auto -34px;
     font-size: clamp(1.55rem, 7vw, 2.2rem);
     padding: 0 6px;
+  }
+
+  .work-grid {
+    gap: 18px;
+  }
+
+  .projects-showcase {
+    margin-top: 0;
   }
 
   .code-snippets {
@@ -1859,7 +1867,7 @@ a {
   }
 
   .roadmap-section {
-    padding: 20px 0 44px;
+    padding: 12px 0 44px;
   }
 
   .exp-switch {
@@ -1918,8 +1926,12 @@ a {
   }
 
   .hero-subtitle {
-    margin: -6px auto -24px;
+    margin: -10px auto -42px;
     font-size: clamp(1.28rem, 6.6vw, 1.75rem);
+  }
+
+  .work-grid {
+    gap: 14px;
   }
 
   .code-snippets {

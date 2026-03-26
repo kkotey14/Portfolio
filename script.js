@@ -267,7 +267,10 @@ if (workGrid) {
   };
 
   const handleWorkGridScroll = () => {
-    const revealThreshold = Math.max(window.innerHeight * 0.35, 180);
+    const revealThreshold =
+      window.innerWidth <= 640
+        ? 36
+        : Math.max(window.innerHeight * 0.35, 180);
     if (window.scrollY > revealThreshold) {
       revealWorkGrid();
     }
@@ -304,6 +307,8 @@ const experienceHint = document.querySelector("[data-exp-hint]");
 if (window.gsap && projectStack && projectCards.length) {
   let frontIndex = 0;
   let expandedIndex = null;
+  let touchStartX = 0;
+  let touchStartY = 0;
 
   const baseStack = [
     { x: 0, y: 0, rotate: 0, scale: 1 },
@@ -321,6 +326,15 @@ if (window.gsap && projectStack && projectCards.length) {
     leadIndex,
     ...projectCards.map((_, index) => index).filter((index) => index !== leadIndex),
   ];
+
+  const cycleFrontCard = (direction) => {
+    const nextIndex =
+      direction === "next"
+        ? (frontIndex + 1) % projectCards.length
+        : (frontIndex - 1 + projectCards.length) % projectCards.length;
+
+    layoutCards(nextIndex, null);
+  };
 
   const setOverlayState = (isExpanded) => {
     if (!projectOverlay) {
@@ -448,6 +462,38 @@ if (window.gsap && projectStack && projectCards.length) {
   });
 
   layoutCards(frontIndex, null);
+
+  projectStack.addEventListener(
+    "touchstart",
+    (event) => {
+      if (!event.touches.length || expandedIndex !== null) {
+        return;
+      }
+
+      touchStartX = event.touches[0].clientX;
+      touchStartY = event.touches[0].clientY;
+    },
+    { passive: true }
+  );
+
+  projectStack.addEventListener(
+    "touchend",
+    (event) => {
+      if (!event.changedTouches.length || expandedIndex !== null) {
+        return;
+      }
+
+      const deltaX = event.changedTouches[0].clientX - touchStartX;
+      const deltaY = event.changedTouches[0].clientY - touchStartY;
+
+      if (Math.abs(deltaX) < 42 || Math.abs(deltaX) < Math.abs(deltaY)) {
+        return;
+      }
+
+      cycleFrontCard(deltaX < 0 ? "next" : "prev");
+    },
+    { passive: true }
+  );
 }
 
 projectThumbs.forEach((thumb) => {
