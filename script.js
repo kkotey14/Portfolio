@@ -462,26 +462,84 @@ const contactFeedback = document.querySelector("[data-contact-feedback]");
 
 if (contactForm && contactFeedback) {
   const submitButton = contactForm.querySelector(".contact-submit");
+  const defaultButtonText = submitButton ? submitButton.textContent : "Send Message";
 
-  const handleContactSubmit = (event) => {
+  const setContactFeedback = (message, state) => {
+    contactFeedback.textContent = message;
+    contactFeedback.classList.remove("is-success", "is-error");
+
+    if (state) {
+      contactFeedback.classList.add(state);
+    }
+  };
+
+  const handleContactSubmit = async (event) => {
     event.preventDefault();
+    setContactFeedback("");
+
+    const formData = new FormData(contactForm);
+    const payload = {
+      name: String(formData.get("name") || "").trim(),
+      email: String(formData.get("email") || "").trim(),
+      message: String(formData.get("message") || "").trim(),
+    };
+
+    if (!payload.name || !payload.email || !payload.message) {
+      setContactFeedback("Please fill out your name, email, and message.", "is-error");
+      return;
+    }
 
     if (submitButton) {
       submitButton.disabled = true;
-      submitButton.textContent = "Message Sent";
-      submitButton.classList.add("is-sent");
+      submitButton.textContent = "Sending...";
+      submitButton.classList.remove("is-sent");
+      submitButton.classList.add("is-loading");
     }
 
-    contactFeedback.textContent = "Your message has been sent successfully.";
-    contactForm.reset();
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    window.setTimeout(() => {
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(result.error || "Message failed to send.");
+      }
+
+      contactForm.reset();
+      setContactFeedback("Your message has been sent successfully.", "is-success");
+
+      if (submitButton) {
+        submitButton.textContent = "Message Sent";
+        submitButton.classList.remove("is-loading");
+        submitButton.classList.add("is-sent");
+      }
+
+      window.setTimeout(() => {
+        if (submitButton) {
+          submitButton.textContent = defaultButtonText;
+          submitButton.classList.remove("is-sent");
+        }
+      }, 1500);
+    } catch (error) {
+      setContactFeedback(
+        error instanceof Error ? error.message : "Message failed to send. Please try again.",
+        "is-error"
+      );
+    } finally {
       if (submitButton) {
         submitButton.disabled = false;
-        submitButton.textContent = "Send Message";
-        submitButton.classList.remove("is-sent");
+        submitButton.classList.remove("is-loading");
+        if (!submitButton.classList.contains("is-sent")) {
+          submitButton.textContent = defaultButtonText;
+        }
       }
-    }, 1200);
+    }
   };
 
   contactForm.addEventListener("submit", handleContactSubmit);
