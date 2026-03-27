@@ -344,10 +344,8 @@ if (window.gsap && projectStack && projectCards.length) {
     { x: 36, y: 60, rotate: -3, scale: 0.96 },
   ];
 
-  const getOrder = (leadIndex) => [
-    leadIndex,
-    ...projectCards.map((_, index) => index).filter((index) => index !== leadIndex),
-  ];
+  const getOrder = (leadIndex) =>
+    projectCards.map((_, index) => (leadIndex + index) % projectCards.length);
 
   const cycleFrontCard = (direction) => {
     const nextIndex =
