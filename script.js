@@ -344,6 +344,30 @@ if (window.gsap && projectStack && projectCards.length) {
     { x: 36, y: 60, rotate: -3, scale: 0.96 },
   ];
 
+  const getLayerOffsets = (layers, layerIndex) => {
+    if (layers[layerIndex]) {
+      return layers[layerIndex];
+    }
+
+    const last = layers[layers.length - 1];
+    const extraDepth = layerIndex - (layers.length - 1);
+
+    return {
+      x: last.x + extraDepth * 20,
+      y: last.y + extraDepth * 24,
+      rotate: last.rotate - extraDepth * 1.6,
+      scale: Math.max(last.scale - extraDepth * 0.015, 0.9),
+    };
+  };
+
+  const getStackHeight = (isExpanded) => {
+    const extraCards = Math.max(0, projectCards.length - 3);
+    const baseHeight = isExpanded ? 640 : 540;
+    const extraHeight = extraCards * 84;
+
+    return `${baseHeight + extraHeight}px`;
+  };
+
   const getOrder = (leadIndex) =>
     projectCards.map((_, index) => (leadIndex + index) % projectCards.length);
 
@@ -383,7 +407,10 @@ if (window.gsap && projectStack && projectCards.length) {
       const cardIndex = Number(card.dataset.card);
       const layerIndex = order.indexOf(cardIndex);
       const isActive = cardIndex === activeIndex;
-      const offsets = activeIndex === null ? baseStack[layerIndex] : expandedDepth[layerIndex];
+      const offsets =
+        activeIndex === null
+          ? getLayerOffsets(baseStack, layerIndex)
+          : getLayerOffsets(expandedDepth, layerIndex);
       const details = card.querySelector(".stack-details");
 
       card.classList.toggle("is-active", isActive);
@@ -409,7 +436,7 @@ if (window.gsap && projectStack && projectCards.length) {
       }
     });
 
-    projectStack.style.height = activeIndex === null ? "540px" : "640px";
+    projectStack.style.height = getStackHeight(activeIndex !== null);
     setOverlayState(activeIndex !== null);
   };
 
@@ -424,7 +451,7 @@ if (window.gsap && projectStack && projectCards.length) {
       });
     }
 
-    const offsets = baseStack[index] || baseStack[baseStack.length - 1];
+    const offsets = getLayerOffsets(baseStack, index);
 
     gsap.set(card, {
       x: offsets.x,

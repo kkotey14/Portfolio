@@ -455,6 +455,16 @@ a {
   letter-spacing: 0.08em;
 }
 
+.stack-note a {
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+
+.stack-note a:hover,
+.stack-note a:focus-visible {
+  opacity: 0.75;
+}
+
 .project-tags {
   display: flex;
   flex-wrap: wrap;
