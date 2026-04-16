@@ -320,11 +320,93 @@ const projectStack = document.querySelector("[data-project-stack]");
 const projectCards = Array.from(document.querySelectorAll(".stack-card"));
 const projectOverlay = document.querySelector(".project-overlay");
 const projectThumbs = Array.from(document.querySelectorAll(".stack-thumb"));
+const projectLightbox = document.querySelector("[data-project-lightbox]");
+const projectLightboxTitle = document.querySelector("[data-lightbox-title]");
+const projectLightboxImage = document.querySelector("[data-lightbox-image]");
+const projectLightboxCounter = document.querySelector("[data-lightbox-counter]");
+const projectLightboxCloseButtons = Array.from(
+  document.querySelectorAll("[data-lightbox-close]")
+);
+const projectLightboxNavButtons = Array.from(
+  document.querySelectorAll("[data-lightbox-direction]")
+);
 const experienceFlip = document.querySelector("[data-exp-flip]");
 const experienceToggleButtons = Array.from(document.querySelectorAll("[data-exp-toggle]"));
 const experienceHint = document.querySelector("[data-exp-hint]");
 const roadmapHint = document.querySelector(".roadmap-hint");
 const roadmapStops = Array.from(document.querySelectorAll(".stop"));
+let activeLightboxThumb = null;
+let activeLightboxIndex = 0;
+
+const isLightboxOpen = () =>
+  Boolean(projectLightbox && !projectLightbox.hasAttribute("hidden"));
+
+const syncLightboxImage = () => {
+  if (!activeLightboxThumb || !projectLightboxImage || !projectLightboxCounter) {
+    return;
+  }
+
+  const images = JSON.parse(activeLightboxThumb.dataset.images || "[]");
+  const title =
+    activeLightboxThumb.closest(".stack-card")?.querySelector("h3")?.textContent?.trim() ||
+    "Project Preview";
+
+  if (!images.length) {
+    return;
+  }
+
+  projectLightboxImage.src = images[activeLightboxIndex];
+  projectLightboxImage.alt = `${title} preview ${activeLightboxIndex + 1}`;
+  projectLightboxCounter.textContent = `${activeLightboxIndex + 1}/${images.length}`;
+
+  if (projectLightboxTitle) {
+    projectLightboxTitle.textContent = title;
+  }
+};
+
+const openProjectLightbox = (thumb, imageIndex = 0) => {
+  if (!projectLightbox || !projectLightboxImage) {
+    return;
+  }
+
+  activeLightboxThumb = thumb;
+  activeLightboxIndex = imageIndex;
+  syncLightboxImage();
+  projectLightbox.removeAttribute("hidden");
+  document.body.classList.add("is-lightbox-open");
+  projectLightbox
+    .querySelector(".project-lightbox-close")
+    ?.focus({ preventScroll: true });
+};
+
+const closeProjectLightbox = () => {
+  if (!projectLightbox || !isLightboxOpen()) {
+    return;
+  }
+
+  projectLightbox.setAttribute("hidden", "");
+  document.body.classList.remove("is-lightbox-open");
+  activeLightboxThumb = null;
+};
+
+const moveProjectLightbox = (direction) => {
+  if (!activeLightboxThumb) {
+    return;
+  }
+
+  const images = JSON.parse(activeLightboxThumb.dataset.images || "[]");
+
+  if (!images.length) {
+    return;
+  }
+
+  activeLightboxIndex =
+    direction === "next"
+      ? (activeLightboxIndex + 1) % images.length
+      : (activeLightboxIndex - 1 + images.length) % images.length;
+
+  syncLightboxImage();
+};
 
 if (window.gsap && projectStack && projectCards.length) {
   let frontIndex = 0;
@@ -468,11 +550,12 @@ if (window.gsap && projectStack && projectCards.length) {
     if (thumbButton) {
       thumbButton.addEventListener("click", (event) => {
         event.stopPropagation();
-        layoutCards(index, index);
-        card.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-        });
+        const thumb = card.querySelector(".stack-thumb");
+        const currentIndex = Number(thumb?.dataset.currentIndex || 0);
+
+        if (thumb) {
+          openProjectLightbox(thumb, currentIndex);
+        }
       });
     }
 
@@ -495,6 +578,7 @@ if (window.gsap && projectStack && projectCards.length) {
   document.addEventListener("click", (event) => {
     if (
       expandedIndex !== null &&
+      !isLightboxOpen() &&
       projectStack &&
       !projectStack.contains(event.target)
     ) {
@@ -503,7 +587,7 @@ if (window.gsap && projectStack && projectCards.length) {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && expandedIndex !== null) {
+    if (event.key === "Escape" && expandedIndex !== null && !isLightboxOpen()) {
       layoutCards(frontIndex, null);
     }
   });
@@ -556,6 +640,7 @@ projectThumbs.forEach((thumb) => {
     }
 
     image.src = images[imageIndex];
+    thumb.dataset.currentIndex = String(imageIndex);
 
     if (counter) {
       counter.textContent = `${imageIndex + 1}/${images.length}`;
@@ -580,6 +665,36 @@ projectThumbs.forEach((thumb) => {
       renderImage();
     });
   });
+});
+
+projectLightboxCloseButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    closeProjectLightbox();
+  });
+});
+
+projectLightboxNavButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    moveProjectLightbox(button.dataset.lightboxDirection || "next");
+  });
+});
+
+document.addEventListener("keydown", (event) => {
+  if (!isLightboxOpen()) {
+    return;
+  }
+
+  if (event.key === "Escape") {
+    closeProjectLightbox();
+  }
+
+  if (event.key === "ArrowRight") {
+    moveProjectLightbox("next");
+  }
+
+  if (event.key === "ArrowLeft") {
+    moveProjectLightbox("prev");
+  }
 });
 
 if (experienceFlip && experienceToggleButtons.length) {

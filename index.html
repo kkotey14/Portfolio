@@ -344,6 +344,49 @@
           <button class="project-overlay" type="button" aria-label="Close expanded project">
             <span class="visually-hidden">Close expanded project</span>
           </button>
+          <div class="project-lightbox" data-project-lightbox hidden>
+            <button
+              class="project-lightbox-backdrop"
+              type="button"
+              aria-label="Close image viewer"
+              data-lightbox-close
+            ></button>
+            <div
+              class="project-lightbox-dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-lightbox-title"
+            >
+              <button
+                class="project-lightbox-close"
+                type="button"
+                aria-label="Close image viewer"
+                data-lightbox-close
+              >
+                &times;
+              </button>
+              <p class="project-lightbox-title" id="project-lightbox-title" data-lightbox-title>
+                Project Preview
+              </p>
+              <div class="project-lightbox-frame">
+                <img
+                  class="project-lightbox-image"
+                  src=""
+                  alt=""
+                  data-lightbox-image
+                />
+              </div>
+              <div class="project-lightbox-controls">
+                <button class="project-lightbox-nav" type="button" data-lightbox-direction="prev">
+                  Prev
+                </button>
+                <span class="project-lightbox-counter" data-lightbox-counter>1/1</span>
+                <button class="project-lightbox-nav" type="button" data-lightbox-direction="next">
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="roadmap-section" id="experience">
