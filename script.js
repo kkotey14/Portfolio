@@ -2,6 +2,7 @@ const title = document.querySelector(".hero-title");
 const image = document.querySelector(".hero-image");
 const subtitle = document.querySelector(".hero-subtitle");
 const codeSnippets = document.querySelector(".code-snippets");
+const heroSection = document.querySelector(".hero-section");
 const heroHome = document.querySelector("[data-hero-home]");
 const aboutPanel = document.querySelector("[data-about-panel]");
 const navHome = document.querySelector("[data-nav-home]");
@@ -13,6 +14,88 @@ const contactSection = document.querySelector("[data-contact-section]");
 
 let heroView = "home";
 const heroTextPieces = [title, codeSnippets, subtitle].filter(Boolean);
+const navigationEntry = performance.getEntriesByType("navigation")[0];
+
+if (navigationEntry?.type === "reload" && window.location.hash) {
+  window.history.replaceState(null, "", `${window.location.pathname}${window.location.search}`);
+}
+
+const hideGatedSections = () => {
+  workGrid?.classList.add("is-hidden");
+  contactSection?.classList.add("is-hidden");
+};
+
+const setNavState = (view) => {
+  navHome?.classList.toggle("is-current", view === "home");
+  navAbout?.classList.toggle("is-current", view === "about");
+  navWork?.classList.toggle("is-current", view === "work");
+  navContact?.classList.toggle("is-current", view === "contact");
+};
+
+const syncNavFromHash = () => {
+  if (window.location.hash === "#experience") {
+    heroView = "about";
+    heroSection?.classList.add("is-about-active");
+    workGrid?.classList.remove("is-hidden");
+    contactSection?.classList.remove("is-hidden");
+    setNavState("work");
+    return;
+  }
+
+  if (window.location.hash === "#contact") {
+    heroView = "about";
+    heroSection?.classList.add("is-about-active");
+    contactSection?.classList.remove("is-hidden");
+    setNavState("contact");
+    return;
+  }
+
+  if (window.location.hash === "#about") {
+    setNavState("about");
+    return;
+  }
+
+  setNavState("home");
+};
+
+const animateAboutAvatar = () => {
+  if (!image) {
+    return;
+  }
+
+  image.getAnimations?.().forEach((animation) => animation.cancel());
+
+  const settleAvatar = () => {
+    image.style.opacity = "1";
+    image.style.transform = "translate3d(0, 0, 0) scale(1)";
+    image.style.filter = "drop-shadow(0 18px 28px rgba(0, 0, 0, 0.12))";
+  };
+
+  const keyframes = [
+    {
+      opacity: 0,
+      transform: "translate3d(190px, 22px, 0) scale(0.88)",
+      filter: "drop-shadow(0 34px 44px rgba(0, 0, 0, 0.08))",
+    },
+    {
+      opacity: 1,
+      transform: "translate3d(0, 0, 0) scale(1)",
+      filter: "drop-shadow(0 18px 28px rgba(0, 0, 0, 0.12))",
+    },
+  ];
+
+  if (typeof image.animate === "function") {
+    const animation = image.animate(keyframes, {
+      duration: 920,
+      easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+    });
+    animation.onfinish = settleAvatar;
+    window.setTimeout(settleAvatar, 940);
+    return;
+  }
+
+  settleAvatar();
+};
 
 if (window.gsap && title && image && subtitle) {
   gsap.set(title, {
@@ -26,7 +109,7 @@ if (window.gsap && title && image && subtitle) {
   });
 
   gsap.set(image, {
-    x: -40,
+    x: 0,
     y: 112,
     opacity: 0,
     scale: 0.97,
@@ -49,6 +132,7 @@ if (window.gsap && title && image && subtitle) {
     .to(
       image,
       {
+        x: 0,
         y: 0,
         opacity: 1,
         scale: 1,
@@ -69,58 +153,28 @@ if (window.gsap && title && image && subtitle) {
       "-=1.1"
     );
 
-  if (aboutPanel) {
-    gsap.set(aboutPanel, {
-      x: -120,
-      opacity: 0,
-      pointerEvents: "none",
-    });
-  }
-
-  const setNavState = (view) => {
-    if (navHome) {
-      navHome.classList.toggle("is-current", view === "home");
-    }
-
-    if (navAbout) {
-      navAbout.classList.toggle("is-current", view === "about");
-    }
-  };
-
   const showAbout = () => {
-    if (heroView === "about" || !aboutPanel) {
+    if (!aboutPanel) {
+      return;
+    }
+
+    if (heroView === "about") {
+      setNavState("about");
+      hideGatedSections();
+      window.history.replaceState(null, "", "#about");
       return;
     }
 
     heroView = "about";
     setNavState("about");
-
-    gsap.timeline({
-      defaults: {
-        ease: "power3.inOut",
-      },
-    })
-      .to(heroTextPieces, {
-        x: 220,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.03,
-      }, 0)
-      .to(image, {
-        x: 150,
-        opacity: 1,
-        duration: 0.68,
-      }, 0.02)
-      .to(heroHome, {
-        pointerEvents: "none",
-        duration: 0.01,
-      }, 0.2)
-      .to(aboutPanel, {
-        x: 0,
-        opacity: 1,
-        pointerEvents: "auto",
-        duration: 0.62,
-      }, 0.08);
+    heroTimeline.pause();
+    hideGatedSections();
+    heroSection?.classList.add("is-about-active");
+    gsap.killTweensOf([aboutPanel, image]);
+    gsap.set(aboutPanel, {
+      clearProps: "all",
+    });
+    animateAboutAvatar();
   };
 
   const showHome = () => {
@@ -130,34 +184,23 @@ if (window.gsap && title && image && subtitle) {
 
     heroView = "home";
     setNavState("home");
-
-    gsap.timeline({
-      defaults: {
-        ease: "power3.inOut",
-      },
-    })
-      .to(aboutPanel, {
-        x: -120,
-        opacity: 0,
-        pointerEvents: "none",
-        duration: 0.5,
-      }, 0)
-      .to(heroHome, {
-        pointerEvents: "auto",
-        duration: 0.01,
-      }, 0.05)
-      .to(heroTextPieces, {
-        x: 0,
-        opacity: 1,
-        duration: 0.62,
-        stagger: 0.03,
-      }, 0.06);
-      gsap.to(image, {
-        x: -40,
-        opacity: 1,
-        duration: 0.62,
-        ease: "power3.inOut",
-      });
+    hideGatedSections();
+    heroSection?.classList.remove("is-about-active");
+    gsap.set(aboutPanel, {
+      clearProps: "all",
+    });
+    gsap.set(heroTextPieces, {
+      x: 0,
+      opacity: 1,
+      clipPath: "inset(0 0% 0 0)",
+    });
+    gsap.set(image, {
+      x: 0,
+      y: 0,
+      opacity: 1,
+      scale: 1,
+      filter: "drop-shadow(0 18px 28px rgba(0, 0, 0, 0.12))",
+    });
   };
 
   setNavState("home");
@@ -183,26 +226,20 @@ if (window.gsap && title && image && subtitle) {
       showHome();
     });
   }
+
+  if (window.location.hash === "#about") {
+    window.scrollTo({ top: 0 });
+    showAbout();
+  }
 }
 
 if (!window.gsap && heroHome && aboutPanel) {
-  const setFallbackNavState = (view) => {
-    navHome?.classList.toggle("is-current", view === "home");
-    navAbout?.classList.toggle("is-current", view === "about");
-  };
-
   const showFallbackAbout = () => {
-    title.style.opacity = "0";
-    subtitle.style.opacity = "0";
-    if (codeSnippets) {
-      codeSnippets.style.opacity = "0";
-    }
-    image.style.transform = "translateX(150px)";
-    aboutPanel.style.opacity = "1";
-    aboutPanel.style.pointerEvents = "auto";
-    aboutPanel.style.transform = "translateX(0)";
-    heroHome.style.pointerEvents = "none";
-    setFallbackNavState("about");
+    heroView = "about";
+    hideGatedSections();
+    heroSection?.classList.add("is-about-active");
+    setNavState("about");
+    animateAboutAvatar();
   };
 
   const showFallbackHome = () => {
@@ -212,14 +249,12 @@ if (!window.gsap && heroHome && aboutPanel) {
       codeSnippets.style.opacity = "1";
     }
     image.style.transform = "translateX(0)";
-    heroHome.style.pointerEvents = "auto";
-    aboutPanel.style.opacity = "0";
-    aboutPanel.style.pointerEvents = "none";
-    aboutPanel.style.transform = "translateX(-120px)";
-    setFallbackNavState("home");
+    hideGatedSections();
+    heroSection?.classList.remove("is-about-active");
+    setNavState("home");
   };
 
-  setFallbackNavState("home");
+  setNavState("home");
 
   navAbout?.addEventListener("click", (event) => {
     event.preventDefault();
@@ -238,27 +273,27 @@ if (!window.gsap && heroHome && aboutPanel) {
     });
     showFallbackHome();
   });
+
+  if (window.location.hash === "#about") {
+    window.scrollTo({ top: 0 });
+    showFallbackAbout();
+  }
 }
 
 if (workGrid || contactSection) {
   const gatedSections = [workGrid, contactSection].filter(Boolean);
-  let gatedSectionsRevealed = false;
-  let workGridObserver;
 
   const revealGatedSections = () => {
-    if (gatedSectionsRevealed) {
-      return;
-    }
-
-    gatedSectionsRevealed = true;
     gatedSections.forEach((section) => section.classList.remove("is-hidden"));
-    window.removeEventListener("scroll", handleWorkGridScroll, { passive: true });
-    workGridObserver?.disconnect();
   };
 
   const revealAndScrollToWorkGrid = (event) => {
     event.preventDefault();
+    heroView = "about";
+    setNavState("work");
+    heroSection?.classList.add("is-about-active");
     revealGatedSections();
+    window.history.replaceState(null, "", "#experience");
 
     const target = document.querySelector("#experience");
     if (target) {
@@ -271,7 +306,11 @@ if (workGrid || contactSection) {
 
   const revealAndScrollToContact = (event) => {
     event.preventDefault();
-    revealGatedSections();
+    heroView = "about";
+    setNavState("contact");
+    heroSection?.classList.add("is-about-active");
+    contactSection?.classList.remove("is-hidden");
+    window.history.replaceState(null, "", "#contact");
 
     if (contactSection) {
       contactSection.scrollIntoView({
@@ -281,40 +320,12 @@ if (workGrid || contactSection) {
     }
   };
 
-  const handleWorkGridScroll = () => {
-    const revealThreshold =
-      window.innerWidth <= 640
-        ? 36
-        : Math.max(window.innerHeight * 0.35, 180);
-    if (window.scrollY > revealThreshold) {
-      revealGatedSections();
-    }
-  };
-
-  navWork?.addEventListener("click", revealAndScrollToWorkGrid);
-  navContact?.addEventListener("click", revealAndScrollToContact);
-
-  workGridObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          revealGatedSections();
-        }
-      });
-    },
-    {
-      threshold: 0.12,
-      rootMargin: "0px 0px -10% 0px",
-    }
-  );
-
-  if (workGrid) {
-    workGridObserver.observe(workGrid);
-  } else if (contactSection) {
-    workGridObserver.observe(contactSection);
-  }
-  window.addEventListener("scroll", handleWorkGridScroll, { passive: true });
+  navWork?.addEventListener("click", revealAndScrollToWorkGrid, { capture: true });
+  navContact?.addEventListener("click", revealAndScrollToContact, { capture: true });
 }
+
+window.addEventListener("hashchange", syncNavFromHash);
+syncNavFromHash();
 
 const projectStack = document.querySelector("[data-project-stack]");
 const projectCards = Array.from(document.querySelectorAll(".stack-card"));
@@ -330,9 +341,6 @@ const projectLightboxCloseButtons = Array.from(
 const projectLightboxNavButtons = Array.from(
   document.querySelectorAll("[data-lightbox-direction]")
 );
-const experienceFlip = document.querySelector("[data-exp-flip]");
-const experienceToggleButtons = Array.from(document.querySelectorAll("[data-exp-toggle]"));
-const experienceHint = document.querySelector("[data-exp-hint]");
 const roadmapHint = document.querySelector(".roadmap-hint");
 const roadmapStops = Array.from(document.querySelectorAll(".stop"));
 let activeLightboxThumb = null;
@@ -414,31 +422,52 @@ if (window.gsap && projectStack && projectCards.length) {
   let touchStartX = 0;
   let touchStartY = 0;
 
-  const baseStack = [
-    { x: 0, y: 0, rotate: 0, scale: 1 },
-    { x: 22, y: 24, rotate: -1.8, scale: 0.985 },
-    { x: 44, y: 48, rotate: -3.6, scale: 0.97 },
-  ];
+  const isCompactStack = () => window.matchMedia("(max-width: 640px)").matches;
 
-  const expandedDepth = [
-    { x: 0, y: 0, rotate: 0, scale: 1 },
-    { x: 18, y: 30, rotate: -1.5, scale: 0.98 },
-    { x: 36, y: 60, rotate: -3, scale: 0.96 },
-  ];
+  const getBaseStack = (isCompact) =>
+    isCompact
+      ? [
+          { x: 0, y: 0, rotate: 0, scale: 1 },
+          { x: 12, y: 18, rotate: -1.2, scale: 0.99 },
+          { x: 24, y: 36, rotate: -2.4, scale: 0.98 },
+        ]
+      : [
+          { x: 0, y: 0, rotate: 0, scale: 1 },
+          { x: 22, y: 24, rotate: -1.8, scale: 0.985 },
+          { x: 44, y: 48, rotate: -3.6, scale: 0.97 },
+        ];
 
-  const getLayerOffsets = (layers, layerIndex) => {
+  const getExpandedDepth = (isCompact) =>
+    isCompact
+      ? [
+          { x: 0, y: 0, rotate: 0, scale: 1 },
+          { x: 10, y: 24, rotate: -1, scale: 0.985 },
+          { x: 20, y: 48, rotate: -2, scale: 0.97 },
+        ]
+      : [
+          { x: 0, y: 0, rotate: 0, scale: 1 },
+          { x: 18, y: 30, rotate: -1.5, scale: 0.98 },
+          { x: 36, y: 60, rotate: -3, scale: 0.96 },
+        ];
+
+  const getLayerOffsets = (layers, layerIndex, isCompact) => {
     if (layers[layerIndex]) {
       return layers[layerIndex];
     }
 
     const last = layers[layers.length - 1];
     const extraDepth = layerIndex - (layers.length - 1);
+    const xStep = isCompact ? 8 : 20;
+    const yStep = isCompact ? 14 : 24;
+    const rotateStep = isCompact ? 0.8 : 1.6;
+    const scaleStep = isCompact ? 0.01 : 0.015;
+    const minScale = isCompact ? 0.94 : 0.9;
 
     return {
-      x: last.x + extraDepth * 20,
-      y: last.y + extraDepth * 24,
-      rotate: last.rotate - extraDepth * 1.6,
-      scale: Math.max(last.scale - extraDepth * 0.015, 0.9),
+      x: last.x + extraDepth * xStep,
+      y: last.y + extraDepth * yStep,
+      rotate: last.rotate - extraDepth * rotateStep,
+      scale: Math.max(last.scale - extraDepth * scaleStep, minScale),
     };
   };
 
@@ -484,15 +513,15 @@ if (window.gsap && projectStack && projectCards.length) {
     frontIndex = leadIndex;
     expandedIndex = activeIndex;
     const order = getOrder(leadIndex);
+    const compact = isCompactStack();
+    const layers =
+      activeIndex === null ? getBaseStack(compact) : getExpandedDepth(compact);
 
     projectCards.forEach((card) => {
       const cardIndex = Number(card.dataset.card);
       const layerIndex = order.indexOf(cardIndex);
       const isActive = cardIndex === activeIndex;
-      const offsets =
-        activeIndex === null
-          ? getLayerOffsets(baseStack, layerIndex)
-          : getLayerOffsets(expandedDepth, layerIndex);
+      const offsets = getLayerOffsets(layers, layerIndex, compact);
       const details = card.querySelector(".stack-details");
 
       card.classList.toggle("is-active", isActive);
@@ -521,6 +550,10 @@ if (window.gsap && projectStack && projectCards.length) {
     projectStack.style.height = getStackHeight(activeIndex !== null);
     setOverlayState(activeIndex !== null);
   };
+
+  window.addEventListener("resize", () => {
+    layoutCards(frontIndex, expandedIndex);
+  });
 
   projectCards.forEach((card, index) => {
     const details = card.querySelector(".stack-details");
@@ -696,33 +729,6 @@ document.addEventListener("keydown", (event) => {
     moveProjectLightbox("prev");
   }
 });
-
-if (experienceFlip && experienceToggleButtons.length) {
-  const setExperienceView = (view) => {
-    experienceFlip.classList.toggle("is-skills", view === "skills");
-
-    if (experienceHint) {
-      experienceHint.textContent =
-        view === "skills"
-          ? "Click Experience to view experience"
-          : "Click Skills to view skills";
-    }
-
-    experienceToggleButtons.forEach((button) => {
-      const isActive = button.dataset.expToggle === view;
-      button.classList.toggle("is-active", isActive);
-      button.setAttribute("aria-selected", String(isActive));
-    });
-  };
-
-  experienceToggleButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      setExperienceView(button.dataset.expToggle || "experience");
-    });
-  });
-
-  setExperienceView("experience");
-}
 
 if (roadmapHint && roadmapStops.length) {
   const settleRoadmapHint = () => {

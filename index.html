@@ -6,17 +6,17 @@
     <title>Kingsley Kotey | Portfolio</title>
     <meta
       name="description"
-      content="Portfolio of Kingsley Kotey, UI/UX designer and frontend developer."
+      content="Portfolio of Kingsley Kotey, full-stack developer."
     />
     <link rel="stylesheet" href="./assets/fonts/google-fonts.css" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=22" />
   </head>
   <body>
     <header class="topbar">
       <nav class="nav">
         <a href="#home" data-nav-home>Home</a>
-        <a href="#about" data-nav-about>About</a>
-        <a href="#experience" data-nav-work>Projects / Experience</a>
+        <a href="#about" data-nav-about>About/Skills</a>
+        <a href="#experience" data-nav-work>Work / Journey</a>
         <a href="#contact" data-nav-contact>Contact</a>
       </nav>
       <div class="nav-socials">
@@ -64,25 +64,78 @@
             <span class="code-snippet snippet-8">async</span>
           </div>
           <img class="hero-image" src="./Firefly.png" alt="Kingsley character art" />
-          <p class="hero-subtitle">UI/UX DESIGN &amp; FULLSTACK DEV</p>
+          <p class="hero-subtitle">FULL-STACK DEVELOPER</p>
         </div>
 
         <div class="about-panel" id="about" data-about-panel>
-          <p class="about-kicker">About</p>
-          <h2>I design clearly and build with structure.</h2>
+          <div class="about-section-label">Systems with<br />Discipline.</div>
           <p class="about-copy">
-            I&apos;m Kingsley Kotey, a developer and designer who lives at the
-            intersection of logic and aesthetics. I&apos;m a partner in the process,
-            collaborating with teams to design interfaces, architect databases,
-            and bring shared roadmaps to life.
+            I&apos;m Kingsley Kotey, a software engineering student and full-stack
+            developer based in the New York City Metropolitan Area. I build web
+            applications with TypeScript, React, Next.js, Node.js, Express,
+            Supabase, and PostgreSQL.
           </p>
           <p class="about-copy">
-            I can&apos;t sleep if there&apos;s a bug I don&apos;t understand in our code.
-            That drive for technical integrity follows me from my work at the
-            SCSU IT Help Desk to the collaborative full-stack apps I build from
-            scratch. I&apos;m a student of the craft first, always growing, always
-            learning, and always focused on building with purpose.
+            My work combines software engineering, IT support, and
+            infrastructure experience: secure authentication flows, REST APIs,
+            database-backed products, endpoint support, deployment workflows,
+            and real users relying on the systems.
           </p>
+          <div class="about-stats" aria-label="Portfolio highlights">
+            <div class="about-stat">
+              <strong>700+</strong>
+              <span>Incidents Resolved</span>
+            </div>
+            <div class="about-stat">
+              <strong>60+</strong>
+              <span>Systems Deployed</span>
+            </div>
+            <div class="about-stat">
+              <strong>20+</strong>
+              <span>KaS Users Supported</span>
+            </div>
+            <div class="about-stat">
+              <strong>3.5</strong>
+              <span>SCSU GPA</span>
+            </div>
+          </div>
+        </div>
+        <div class="about-skills" aria-label="Skills and certifications">
+          <div class="about-skills-label">Skills &amp; Certs</div>
+          <div class="about-skills-list">
+            <div class="about-skill-item" data-used="Used in OwlDiary, KaS, and client builds">
+              <span class="about-skill-name">TypeScript / JavaScript / Python</span>
+              <span class="about-skill-level">Languages</span>
+            </div>
+            <div class="about-skill-item" data-used="Used in OwlDiary, AmJes, KaS, and WigVerse">
+              <span class="about-skill-name">React / Next.js / Tailwind CSS</span>
+              <span class="about-skill-level">Frontend</span>
+            </div>
+            <div class="about-skill-item" data-used="Used in APIs, auth, dashboards, and data workflows">
+              <span class="about-skill-name">Node.js / Supabase / PostgreSQL</span>
+              <span class="about-skill-level">Backend</span>
+            </div>
+            <div class="about-skill-item" data-used="Used for launches, CI, hosting, and support workflows">
+              <span class="about-skill-name">Vercel / GitHub Actions / Linux</span>
+              <span class="about-skill-level">Cloud & DevOps</span>
+            </div>
+            <div class="about-skill-item" data-used="Used across product planning and production delivery">
+              <span class="about-skill-name">REST APIs / Software Development Life Cycle / Agile</span>
+              <span class="about-skill-level">Core</span>
+            </div>
+            <div class="about-skill-item" data-used="Used in assistant flows and AI features">
+              <span class="about-skill-name">Prompt Engineering / AI Integration</span>
+              <span class="about-skill-level">Modern Stack</span>
+            </div>
+            <div class="about-skill-item" data-used="Used in SCSU IT support and infrastructure work">
+              <span class="about-skill-name">Active Directory / Microsoft 365 / Identity Access Management / Networking</span>
+              <span class="about-skill-level">Systems & IT</span>
+            </div>
+            <div class="about-skill-item" data-used="Applied to planning, coordination, and delivery">
+              <span class="about-skill-name">Google Project Management</span>
+              <span class="about-skill-level">Certification</span>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -137,7 +190,16 @@
                 posting, moderation features, personalized profiles, and hosted
                 deployment across frontend, backend, and database services.
               </p>
-              <p class="stack-note">Live: owl-diary.vercel.app</p>
+              <ul class="impact-list">
+                <li>Built role-based access for course-wide student communication.</li>
+                <li>Implemented media uploads, draft publishing, auth, likes, comments, and notifications.</li>
+                <li>Delivered a responsive UI for journaling, profiles, settings, and dashboard workflows.</li>
+              </ul>
+              <div class="project-actions">
+                <a href="https://owl-diary.vercel.app" target="_blank" rel="noreferrer">Live Site</a>
+                <a href="https://github.com/kkotey14" target="_blank" rel="noreferrer">GitHub</a>
+              </div>
+              <p class="stack-note">Role-Based Journaling Platform</p>
             </div>
           </article>
 
@@ -185,7 +247,16 @@
                 order tracking, admin tooling, and deployment for real business
                 use.
               </p>
-              <p class="stack-note">Client case study repository</p>
+              <ul class="impact-list">
+                <li>Transitioned a local business into centralized online ordering and payment workflows.</li>
+                <li>Built product discovery, checkout, customer accounts, order tracking, and admin operations.</li>
+                <li>Optimized database queries and rendering states to reduce page-load latency.</li>
+              </ul>
+              <div class="project-actions">
+                <a href="https://github.com/kkotey14" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="#contact">Request Case Study</a>
+              </div>
+              <p class="stack-note">Client Commerce Platform</p>
             </div>
           </article>
 
@@ -233,6 +304,15 @@
                 admin dashboards, and staff booking workflows in a full-stack
                 PHP and MySQL application.
               </p>
+              <ul class="impact-list">
+                <li>Designed booking flows for guests, staff, and administrators.</li>
+                <li>Implemented room inventory management, reservations, and admin dashboards.</li>
+                <li>Integrated PHPMailer-backed communication for operational workflows.</li>
+              </ul>
+              <div class="project-actions">
+                <a href="https://github.com/kkotey14/hotel-management-system" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="#contact">Discuss Build</a>
+              </div>
               <p class="stack-note">
                 github.com/kkotey14/hotel-management-system
               </p>
@@ -267,13 +347,13 @@
               <p>
                 A personal finance app built to help users track money in one
                 place with budgeting, debt tracking, recurring income, and
-                financial summaries.
+                real-time financial summaries.
               </p>
               <div class="project-tags">
-                <span>Personal Finance</span>
-                <span>Budgets</span>
-                <span>AI Assistant</span>
-                <span>Mobile Coming Soon</span>
+                <span>Next.js</span>
+                <span>TypeScript</span>
+                <span>Supabase</span>
+                <span>PostgreSQL</span>
               </div>
             </div>
             <div class="stack-details">
@@ -284,6 +364,15 @@
                 statement imports, charts, and an in-app AI assistant for quick
                 finance actions and questions.
               </p>
+              <ul class="impact-list">
+                <li>Developed secure transaction tracking and authenticated workflows for 20+ active users.</li>
+                <li>Integrated an AI-powered financial assistant with conversational guidance.</li>
+                <li>Built scalable async backend infrastructure and deployed on Vercel.</li>
+              </ul>
+              <div class="project-actions">
+                <a href="https://kasfianance.com/" target="_blank" rel="noreferrer">Live Site</a>
+                <a href="https://github.com/kkotey14/KaSpublic" target="_blank" rel="noreferrer">GitHub</a>
+              </div>
               <p class="stack-note">
                 Repo:
                 <a href="https://github.com/kkotey14/KaSpublic" target="_blank" rel="noreferrer">
@@ -337,6 +426,15 @@
                 emphasis on interface polish, smooth interactions, responsive
                 layouts, and performance across the shopping journey.
               </p>
+              <ul class="impact-list">
+                <li>Refining storefront UI for a premium beauty commerce experience.</li>
+                <li>Improving responsive browsing, product presentation, and interaction polish.</li>
+                <li>Building with performance and conversion-focused shopping flows in mind.</li>
+              </ul>
+              <div class="project-actions">
+                <a href="#contact">Request Preview</a>
+                <a href="#experience">View Skills</a>
+              </div>
               <p class="stack-note">Private client project in active development</p>
             </div>
           </article>
@@ -391,16 +489,7 @@
 
         <section class="roadmap-section" id="experience">
           <div class="section-header">
-            <p class="exp-hint" data-exp-hint>Click Skills to view skills</p>
-            <div class="exp-switch" role="tablist" aria-label="Experience and skills">
-              <button class="exp-switch-button is-active" type="button" data-exp-toggle="experience" aria-selected="true">
-                Experience
-              </button>
-              <span>/</span>
-              <button class="exp-switch-button" type="button" data-exp-toggle="skills" aria-selected="false">
-                Skills
-              </button>
-            </div>
+            <p class="section-kicker">Experience</p>
             <p class="roadmap-hint">Tap / hover over icons to view details</p>
           </div>
 
@@ -637,7 +726,7 @@
                 <p class="tip-title">A.S. Computer Information Systems</p>
                 <p class="tip-org">Housatonic State College · Bridgeport, CT</p>
                 <p class="tip-date">Graduated May 2024 · GPA 3.6</p>
-                <p class="tip-body">Dean's List 2022–2024. Academic Excellence in Programming.</p>
+                <p class="tip-body">A.S. Computer Information Systems, Dean's List track, and foundation coursework in algorithms, software quality, and systems.</p>
               </div>
             </div>
 
@@ -648,10 +737,10 @@
               </div>
               <div class="tip tip-l">
                 <span class="tip-badge work">Work</span>
-                <p class="tip-title">Help Desk Intern</p>
+                <p class="tip-title">IT Infrastructure Systems &amp; Deployment Intern</p>
                 <p class="tip-org">Housatonic State College IT · Bridgeport, CT</p>
                 <p class="tip-date">May 2024 – Jul 2024</p>
-                <p class="tip-body">Built Python log analysis tools. Led security compliance rollout across 60+ devices.</p>
+                <p class="tip-body">Led campus hardware deployment, BIOS configuration, workstation maintenance, cable replacement, and 60+ system setups.</p>
               </div>
             </div>
 
@@ -665,7 +754,7 @@
                 <p class="tip-title">STEM Mentor</p>
                 <p class="tip-org">ACCESS Educational Service · Bridgeport, CT</p>
                 <p class="tip-date">Aug 2024 – May 2025</p>
-                <p class="tip-body">Designed & taught Python curriculum enabling students to build real working programs.</p>
+                <p class="tip-body">Mentored student teams through robotics and software challenges while reinforcing teamwork, debugging, and agile problem solving.</p>
               </div>
             </div>
 
@@ -676,10 +765,10 @@
               </div>
               <div class="tip tip-l">
                 <span class="tip-badge work">Work</span>
-                <p class="tip-title">IT Help Desk Technician</p>
+                <p class="tip-title">IT Support Engineer</p>
                 <p class="tip-org">SCSU IT Department · New Haven, CT</p>
                 <p class="tip-date">Jul 2025 – Present</p>
-                <p class="tip-body">Resolved infra issues for 1,000+ users across AD, Linux & networking. Automated workflows with PowerShell & Bash.</p>
+                <p class="tip-body">Resolved 700+ incidents across Active Directory, endpoint systems, enterprise apps, networking, and authentication for a 9,000+ person campus.</p>
               </div>
             </div>
 
@@ -688,12 +777,19 @@
                 <div class="pin-head"><span class="pin-emoji">ED</span></div>
                 <div class="pin-shadow"></div>
               </div>
-              <div class="tip tip-r">
+              <div class="tip tip-r tip-wide">
                 <span class="tip-badge edu">Education</span>
-                <p class="tip-title">M.S. Software Eng. / B.S. CS</p>
+                <p class="tip-title">B.S. CS / M.S. Software Engineering</p>
                 <p class="tip-org">Southern Connecticut State University</p>
-                <p class="tip-date">Expected 2027 / 2028 · GPA 3.5</p>
-                <p class="tip-body">Dean's List 2022–2025. Google Project Management certified Jan 2026.</p>
+                <div class="tip-degree">
+                  <p class="tip-degree-title">B.S. Computer Science</p>
+                  <p class="tip-date">Expected May 2027 · GPA 3.5</p>
+                </div>
+                <div class="tip-degree">
+                  <p class="tip-degree-title">M.S. Software Engineering</p>
+                  <p class="tip-date">Expected May 2028</p>
+                </div>
+                <p class="tip-body">Dean's List 2022-2025, CS Club member, Presidential Scholar Ambassador, and Google Project Management certified Jan 2026.</p>
               </div>
             </div>
 
@@ -704,10 +800,10 @@
               </div>
               <div class="tip tip-l">
                 <span class="tip-badge work">Work</span>
-                <p class="tip-title">Full Stack Developer</p>
-                <p class="tip-org">Self-employed · NYC Metro / Remote</p>
+                <p class="tip-title">Founder &amp; Software Engineer</p>
+                <p class="tip-org">Independent Software Consulting · Remote</p>
                 <p class="tip-date">Mar 2026 – Present</p>
-                <p class="tip-body">Building full-stack platforms — frontend, backend, auth, payments, APIs, and deployment.</p>
+                <p class="tip-body">Building and maintaining client-facing websites and apps with React, Next.js, TypeScript, Tailwind CSS, performance optimization, and scalable deployment.</p>
               </div>
             </div>
           </div>
@@ -716,54 +812,6 @@
                   <div class="leg"><div class="leg-dot ld-w"></div> Work</div>
                   <div class="leg"><div class="leg-dot ld-e"></div> Education</div>
                   <div class="leg"><div class="leg-dot ld-m"></div> Mentorship</div>
-                </div>
-              </div>
-
-              <div class="experience-face experience-face-back">
-                <div class="skills-panel">
-                  <p class="skills-kicker">Skills</p>
-                  <div class="skills-list">
-                    <div class="skills-group">
-                      <h3>Design</h3>
-                      <div>
-                        <span>UI/UX</span>
-                        <span>Figma</span>
-                        <span>Wireframing</span>
-                        <span>Prototyping</span>
-                      </div>
-                    </div>
-                    <div class="skills-group">
-                      <h3>Frontend</h3>
-                      <div>
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
-                        <span>React</span>
-                        <span>Next.js</span>
-                      </div>
-                    </div>
-                    <div class="skills-group">
-                      <h3>Backend</h3>
-                      <div>
-                        <span>Python</span>
-                        <span>Node.js</span>
-                        <span>Express</span>
-                        <span>PostgreSQL</span>
-                        <span>MySQL</span>
-                        <span>PHP</span>
-                      </div>
-                    </div>
-                    <div class="skills-group">
-                      <h3>Tools</h3>
-                      <div>
-                        <span>Git</span>
-                        <span>Render</span>
-                        <span>Supabase</span>
-                        <span>PowerShell</span>
-                        <span>Bash</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -778,9 +826,10 @@
         </div>
         <div class="contact-card">
           <div class="contact-copy">
-            <h2>Let&apos;s build something solid.</h2>
+            <h2>Let&apos;s build something useful.</h2>
             <p>
-              Send a message for freelance work, collaborations, or product ideas.
+              Available for full-stack engineering, product builds, internships,
+              and technical collaborations.
             </p>
           </div>
           <form class="contact-form" data-contact-form novalidate>
@@ -803,6 +852,6 @@
       </section>
     </main>
     <script src="./assets/vendor/gsap.min.js"></script>
-    <script src="./script.js"></script>
+    <script src="./script.js?v=11"></script>
   </body>
 </html>
