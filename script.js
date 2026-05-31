@@ -295,7 +295,7 @@ if (workGrid || contactSection) {
     revealGatedSections();
     window.history.replaceState(null, "", "#experience");
 
-    const target = document.querySelector("#experience");
+    const target = document.querySelector("#projects") || workGrid;
     if (target) {
       target.scrollIntoView({
         behavior: "smooth",
@@ -566,7 +566,8 @@ if (window.gsap && projectStack && projectCards.length) {
       });
     }
 
-    const offsets = getLayerOffsets(baseStack, index);
+    const compact = isCompactStack();
+    const offsets = getLayerOffsets(getBaseStack(compact), index, compact);
 
     gsap.set(card, {
       x: offsets.x,
@@ -577,6 +578,11 @@ if (window.gsap && projectStack && projectCards.length) {
     });
 
     card.addEventListener("click", () => {
+      if (isCompactStack() && expandedIndex === null) {
+        cycleFrontCard("next");
+        return;
+      }
+
       layoutCards(index, index);
     });
 
@@ -735,11 +741,40 @@ if (roadmapHint && roadmapStops.length) {
     roadmapHint.classList.add("is-settled");
   };
 
+  const activateRoadmapStop = (activeStop) => {
+    roadmapStops.forEach((stop) => {
+      stop.classList.toggle("is-active", stop === activeStop);
+    });
+  };
+
   roadmapStops.forEach((stop) => {
+    stop.tabIndex = 0;
+    stop.setAttribute("role", "button");
+    stop.setAttribute("aria-label", stop.querySelector(".tip-title")?.textContent?.trim() || "Experience detail");
     stop.addEventListener("mouseenter", settleRoadmapHint, { once: true });
     stop.addEventListener("focusin", settleRoadmapHint, { once: true });
-    stop.addEventListener("touchstart", settleRoadmapHint, { once: true, passive: true });
-    stop.addEventListener("click", settleRoadmapHint, { once: true });
+    stop.addEventListener("touchstart", () => {
+      settleRoadmapHint();
+      activateRoadmapStop(stop);
+    }, { passive: true });
+    stop.addEventListener("click", (event) => {
+      event.stopPropagation();
+      settleRoadmapHint();
+      activateRoadmapStop(stop);
+    });
+    stop.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      settleRoadmapHint();
+      activateRoadmapStop(stop);
+    });
+  });
+
+  document.addEventListener("click", () => {
+    roadmapStops.forEach((stop) => stop.classList.remove("is-active"));
   });
 }
 
