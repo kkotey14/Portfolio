@@ -712,7 +712,18 @@ body.is-lightbox-open {
   transform-origin: left center;
 }
 
-.roadmap-hint.is-settled {
+.projects-hint {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  animation: roadmapHintBounce 1.7s ease-in-out infinite;
+  transform-origin: left center;
+}
+
+.roadmap-hint.is-settled,
+.projects-hint.is-settled {
   animation: none;
 }
 
@@ -1557,16 +1568,16 @@ body.is-lightbox-open {
 .hero-subtitle {
   margin: -72px auto 0;
   display: block;
-  width: fit-content;
+  width: min(100%, 760px);
   color: #3b3232;
   font-family: "Baskervville SC", serif;
-  font-size: 66px;
-  line-height: 1.05;
+  font-size: clamp(1.9rem, 3.8vw, 3.2rem);
+  line-height: 1.02;
   text-align: center;
   position: relative;
   z-index: 3;
   overflow: hidden;
-  white-space: nowrap;
+  white-space: normal;
   will-change: clip-path, opacity, transform;
 }
 
@@ -1598,8 +1609,8 @@ body.is-lightbox-open {
   grid-column: 2;
   grid-row: 1;
   align-content: start;
-  padding: 52px 0 32px;
-  max-width: 390px;
+  padding: 46px 0 28px;
+  max-width: 360px;
   opacity: 0;
   animation: aboutPanelIn 300ms ease-out both;
 }
@@ -1612,19 +1623,19 @@ body.is-lightbox-open {
 .about-skills-label {
   display: flex;
   align-items: center;
-  gap: 18px;
-  margin-bottom: 28px;
+  gap: 16px;
+  margin-bottom: 24px;
   color: #c0392b;
-  font-size: 0.64rem;
+  font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.52em;
+  letter-spacing: 0.48em;
   line-height: 1.4;
   text-transform: uppercase;
 }
 
 .about-skills-label::after {
   content: "";
-  width: 88px;
+  width: 72px;
   height: 1px;
   background: #c0392b;
 }
@@ -1642,8 +1653,8 @@ body.is-lightbox-open {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  min-height: 56px;
-  padding: 11px 0 11px 11px;
+  min-height: 50px;
+  padding: 9px 0 9px 10px;
   border-bottom: 1px solid rgba(27, 18, 15, 0.08);
   overflow: hidden;
 }
@@ -1669,7 +1680,7 @@ body.is-lightbox-open {
   z-index: 2;
   color: #050505;
   font-family: "Cormorant Garamond", "Baskervville SC", serif;
-  font-size: clamp(1.14rem, 2.05vw, 1.7rem);
+  font-size: clamp(1rem, 1.72vw, 1.46rem);
   font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -2186,7 +2197,7 @@ body.is-lightbox-open {
   .hero-subtitle {
     width: 100%;
     margin: -54px auto 0;
-    font-size: clamp(2.4rem, 7vw, 4rem);
+    font-size: clamp(1.8rem, 5.5vw, 3rem);
     white-space: normal;
     line-height: 1.04;
     text-align: center;

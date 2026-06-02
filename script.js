@@ -341,6 +341,7 @@ const projectLightboxCloseButtons = Array.from(
 const projectLightboxNavButtons = Array.from(
   document.querySelectorAll("[data-lightbox-direction]")
 );
+const projectsHint = document.querySelector(".projects-hint");
 const roadmapHint = document.querySelector(".roadmap-hint");
 const roadmapStops = Array.from(document.querySelectorAll(".stop"));
 let activeLightboxThumb = null;
@@ -472,7 +473,7 @@ if (window.gsap && projectStack && projectCards.length) {
   };
 
   const getStackHeight = (isExpanded) => {
-    const extraCards = Math.max(0, projectCards.length - 3);
+    const extraCards = Math.min(Math.max(0, projectCards.length - 3), 2);
     const baseHeight = isExpanded ? 640 : 540;
     const extraHeight = extraCards * 84;
 
@@ -558,6 +559,9 @@ if (window.gsap && projectStack && projectCards.length) {
   projectCards.forEach((card, index) => {
     const details = card.querySelector(".stack-details");
     const thumbButton = card.querySelector(".thumb-scroll");
+    const settleProjectsHint = () => {
+      projectsHint?.classList.add("is-settled");
+    };
 
     if (details) {
       gsap.set(details, {
@@ -578,6 +582,8 @@ if (window.gsap && projectStack && projectCards.length) {
     });
 
     card.addEventListener("click", () => {
+      settleProjectsHint();
+
       if (isCompactStack() && expandedIndex === null) {
         cycleFrontCard("next");
         return;
@@ -601,6 +607,7 @@ if (window.gsap && projectStack && projectCards.length) {
     card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
+        settleProjectsHint();
         layoutCards(index, index);
       }
     });
