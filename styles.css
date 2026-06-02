@@ -1566,14 +1566,16 @@ body.is-lightbox-open {
 }
 
 .hero-subtitle {
-  margin: -72px auto 0;
+  margin: -42px auto 0;
   display: block;
-  width: min(100%, 760px);
-  color: #3b3232;
-  font-family: "Baskervville SC", serif;
-  font-size: clamp(1.9rem, 3.8vw, 3.2rem);
-  line-height: 1.02;
+  width: min(100%, 620px);
+  color: rgba(59, 50, 50, 0.82);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1rem, 1.65vw, 1.45rem);
+  font-weight: 500;
+  line-height: 1.35;
   text-align: center;
+  letter-spacing: 0.02em;
   position: relative;
   z-index: 3;
   overflow: hidden;
@@ -2196,10 +2198,10 @@ body.is-lightbox-open {
 
   .hero-subtitle {
     width: 100%;
-    margin: -54px auto 0;
-    font-size: clamp(1.8rem, 5.5vw, 3rem);
+    margin: -38px auto 0;
+    font-size: clamp(1rem, 2.4vw, 1.35rem);
     white-space: normal;
-    line-height: 1.04;
+    line-height: 1.35;
     text-align: center;
     padding: 0 10px;
   }
@@ -2390,8 +2392,8 @@ body.is-lightbox-open {
   }
 
   .hero-subtitle {
-    margin: -48px auto -34px;
-    font-size: clamp(1.55rem, 7vw, 2.2rem);
+    margin: -32px auto -24px;
+    font-size: clamp(0.95rem, 3.4vw, 1.2rem);
     padding: 0 6px;
   }
 
@@ -2640,8 +2642,8 @@ body.is-lightbox-open {
   }
 
   .hero-subtitle {
-    margin: -10px auto -42px;
-    font-size: clamp(1.28rem, 6.6vw, 1.75rem);
+    margin: -8px auto -32px;
+    font-size: clamp(0.9rem, 3.8vw, 1.08rem);
   }
 
   .about-copy {
