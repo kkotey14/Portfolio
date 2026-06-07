@@ -58,8 +58,8 @@ main {
   max-width: var(--max-width);
   overflow: visible;
   display: grid;
-  grid-template-columns: minmax(0, 520px) minmax(0, 1fr);
-  gap: 64px;
+  grid-template-columns: minmax(0, 500px) minmax(460px, 1fr);
+  gap: 48px;
   align-items: start;
 }
 
@@ -1611,8 +1611,9 @@ body.is-lightbox-open {
   grid-column: 2;
   grid-row: 1;
   align-content: start;
-  padding: 46px 0 28px;
-  max-width: 360px;
+  padding: 42px 0 24px;
+  width: 100%;
+  max-width: 520px;
   opacity: 0;
   animation: aboutPanelIn 300ms ease-out both;
 }
@@ -1655,8 +1656,8 @@ body.is-lightbox-open {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  min-height: 50px;
-  padding: 9px 0 9px 10px;
+  min-height: 46px;
+  padding: 8px 0 8px 10px;
   border-bottom: 1px solid rgba(27, 18, 15, 0.08);
   overflow: hidden;
 }
@@ -1682,7 +1683,7 @@ body.is-lightbox-open {
   z-index: 2;
   color: #050505;
   font-family: "Cormorant Garamond", "Baskervville SC", serif;
-  font-size: clamp(1rem, 1.72vw, 1.46rem);
+  font-size: clamp(0.98rem, 1.48vw, 1.32rem);
   font-weight: 700;
   line-height: 1.08;
   letter-spacing: -0.03em;
@@ -2169,7 +2170,7 @@ body.is-lightbox-open {
 
   .hero-section.is-about-active {
     display: grid;
-    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 300px) minmax(360px, 1fr);
     gap: 18px;
   }
 
@@ -2238,16 +2239,17 @@ body.is-lightbox-open {
 
   .about-skills {
     padding: 26px 8px 0;
-    max-width: 335px;
+    width: 100%;
+    max-width: none;
   }
 
   .about-skill-item {
-    min-height: 52px;
-    padding: 10px 0 10px 10px;
+    min-height: 46px;
+    padding: 8px 0 8px 10px;
   }
 
   .about-skill-name {
-    font-size: clamp(1.02rem, 2.85vw, 1.3rem);
+    font-size: clamp(0.95rem, 2.15vw, 1.18rem);
   }
 
   .about-skill-level {
