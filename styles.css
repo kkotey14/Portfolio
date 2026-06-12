@@ -1568,18 +1568,19 @@ body.is-lightbox-open {
 .hero-subtitle {
   margin: -42px auto 0;
   display: block;
-  width: min(100%, 620px);
-  color: rgba(59, 50, 50, 0.82);
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(1rem, 1.65vw, 1.45rem);
-  font-weight: 500;
-  line-height: 1.35;
+  width: min(100%, 780px);
+  color: rgba(27, 18, 15, 0.84);
+  font-family: "Syne", "Space Grotesk", sans-serif;
+  font-size: clamp(1.02rem, 1.55vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.28;
   text-align: center;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   position: relative;
   z-index: 3;
   overflow: hidden;
   white-space: normal;
+  text-wrap: balance;
   will-change: clip-path, opacity, transform;
 }
 
@@ -1755,13 +1756,212 @@ body.is-lightbox-open {
 .about-copy {
   margin: 0 0 18px;
   max-width: 680px;
-  color: #4d4a48;
-  font-family: "Courier New", monospace;
-  font-size: clamp(0.94rem, 1.35vw, 1.1rem);
-  font-style: italic;
+  color: rgba(27, 18, 15, 0.72);
+  font-family: "Cormorant Garamond", "Baskervville SC", serif;
+  font-size: clamp(1.18rem, 1.72vw, 1.5rem);
+  font-style: normal;
   font-weight: 400;
-  letter-spacing: 0.025em;
-  line-height: 1.72;
+  letter-spacing: -0.012em;
+  line-height: 1.24;
+}
+
+.about-copy:first-of-type {
+  color: #1b120f;
+  font-family: "Cormorant Garamond", "Baskervville SC", serif;
+  font-size: clamp(1.56rem, 2.7vw, 2.22rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.about-copy-cta {
+  margin-top: 22px;
+  color: #c0392b;
+  font-size: clamp(1.05rem, 1.5vw, 1.32rem);
+  font-style: italic;
+}
+
+.about-copy-cta-text {
+  position: relative;
+  display: inline-block;
+  transform-origin: center;
+  animation: ctaCardDeal 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: 1.4s;
+  will-change: transform, color, text-shadow;
+}
+
+.about-copy-cta-text::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #c0392b, transparent);
+  opacity: 0;
+  transform: scaleX(0.25);
+  transform-origin: center;
+  animation: ctaCardUnderline 6s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  animation-delay: 1.4s;
+}
+
+.hero-section.is-about-active .about-section-label,
+.hero-section.is-about-active .about-copy,
+.hero-section.is-about-active .about-stat,
+.hero-section.is-about-active .about-skills-label,
+.hero-section.is-about-active .about-skill-item {
+  animation: aboutTextReveal 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-section.is-about-active .about-section-label {
+  animation-delay: 40ms;
+}
+
+.hero-section.is-about-active .about-copy:nth-of-type(1) {
+  animation-delay: 130ms;
+}
+
+.hero-section.is-about-active .about-copy:nth-of-type(2) {
+  animation-delay: 250ms;
+}
+
+.hero-section.is-about-active .about-copy:nth-of-type(3) {
+  animation-delay: 350ms;
+}
+
+.hero-section.is-about-active .about-stat:nth-child(1) {
+  animation-delay: 470ms;
+}
+
+.hero-section.is-about-active .about-stat:nth-child(2) {
+  animation-delay: 550ms;
+}
+
+.hero-section.is-about-active .about-stat:nth-child(3) {
+  animation-delay: 630ms;
+}
+
+.hero-section.is-about-active .about-stat:nth-child(4) {
+  animation-delay: 710ms;
+}
+
+.hero-section.is-about-active .about-skills-label {
+  animation-delay: 180ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(1) {
+  animation-delay: 280ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(2) {
+  animation-delay: 350ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(3) {
+  animation-delay: 420ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(4) {
+  animation-delay: 490ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(5) {
+  animation-delay: 560ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(6) {
+  animation-delay: 630ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(7) {
+  animation-delay: 700ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(8) {
+  animation-delay: 770ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(9) {
+  animation-delay: 840ms;
+}
+
+.hero-section.is-about-active .about-skill-item:nth-child(10) {
+  animation-delay: 910ms;
+}
+
+@keyframes aboutTextReveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    clip-path: inset(0 0 100% 0);
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+  }
+}
+
+@keyframes ctaCardDeal {
+  0%,
+  76%,
+  100% {
+    color: #c0392b;
+    text-shadow: none;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  82% {
+    color: #9f2f24;
+    text-shadow: 0 10px 26px rgba(192, 57, 43, 0.16);
+    transform: translate3d(0, -8px, 0) rotate(-1.2deg);
+  }
+
+  88% {
+    color: #c0392b;
+    text-shadow: 0 4px 14px rgba(192, 57, 43, 0.1);
+    transform: translate3d(0, 1px, 0) rotate(0.35deg);
+  }
+}
+
+@keyframes ctaCardUnderline {
+  0%,
+  76%,
+  100% {
+    opacity: 0;
+    transform: scaleX(0.25);
+  }
+
+  84% {
+    opacity: 0.7;
+    transform: scaleX(1);
+  }
+
+  90% {
+    opacity: 0;
+    transform: scaleX(0.78);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-section.is-about-active .about-section-label,
+  .hero-section.is-about-active .about-copy,
+  .hero-section.is-about-active .about-stat,
+  .hero-section.is-about-active .about-skills-label,
+  .hero-section.is-about-active .about-skill-item {
+    animation: none;
+  }
+
+  .about-copy-cta-text {
+    animation: none;
+  }
+
+  .about-copy-cta-text::after {
+    animation: none;
+  }
 }
 
 .about-stats {
@@ -2265,8 +2465,12 @@ body.is-lightbox-open {
 
   .about-copy {
     max-width: 100%;
-    font-size: clamp(0.95rem, 2.2vw, 1.08rem);
-    line-height: 1.68;
+    font-size: clamp(1.08rem, 2.35vw, 1.28rem);
+    line-height: 1.22;
+  }
+
+  .about-copy:first-of-type {
+    font-size: clamp(1.42rem, 4vw, 1.92rem);
   }
 
   .about-stats {
@@ -2475,9 +2679,13 @@ body.is-lightbox-open {
   }
 
   .about-copy {
-    font-size: 0.94rem;
-    letter-spacing: 0.025em;
-    line-height: 1.66;
+    font-size: 1.08rem;
+    letter-spacing: -0.012em;
+    line-height: 1.24;
+  }
+
+  .about-copy:first-of-type {
+    font-size: clamp(1.32rem, 5.4vw, 1.72rem);
   }
 
   .about-stats {
@@ -2649,7 +2857,11 @@ body.is-lightbox-open {
   }
 
   .about-copy {
-    font-size: 0.9rem;
+    font-size: 1.02rem;
+  }
+
+  .about-copy:first-of-type {
+    font-size: clamp(1.18rem, 6.4vw, 1.48rem);
   }
 
   .about-panel h2 {
