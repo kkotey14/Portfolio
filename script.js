@@ -11,6 +11,7 @@ const navWork = document.querySelector("[data-nav-work]");
 const navContact = document.querySelector("[data-nav-contact]");
 const workGrid = document.querySelector("[data-work-grid]");
 const contactSection = document.querySelector("[data-contact-section]");
+const skillRows = Array.from(document.querySelectorAll(".about-skill-item"));
 
 let heroView = "home";
 const heroTextPieces = [title, codeSnippets, subtitle].filter(Boolean);
@@ -326,6 +327,26 @@ if (workGrid || contactSection) {
 
 window.addEventListener("hashchange", syncNavFromHash);
 syncNavFromHash();
+
+skillRows.forEach((row) => {
+  const triggerSkillFall = () => {
+    if (row.classList.contains("is-falling")) {
+      return;
+    }
+
+    row.classList.remove("is-tilt-complete");
+    row.classList.add("is-falling");
+  };
+
+  row.addEventListener("mouseenter", triggerSkillFall);
+  row.addEventListener("focusin", triggerSkillFall);
+  row.addEventListener("animationend", (event) => {
+    if (event.animationName === "skillRowTilt") {
+      row.classList.remove("is-falling");
+      row.classList.add("is-tilt-complete");
+    }
+  });
+});
 
 const projectStack = document.querySelector("[data-project-stack]");
 const projectCards = Array.from(document.querySelectorAll(".stack-card"));

@@ -1648,6 +1648,7 @@ body.is-lightbox-open {
   display: flex;
   flex-direction: column;
   gap: 0;
+  perspective: 900px;
 }
 
 .about-skill-item {
@@ -1661,6 +1662,9 @@ body.is-lightbox-open {
   padding: 8px 0 8px 10px;
   border-bottom: 1px solid rgba(27, 18, 15, 0.08);
   overflow: hidden;
+  transform-origin: 12% 50%;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 
 .about-skill-item::after {
@@ -1889,6 +1893,18 @@ body.is-lightbox-open {
   animation-delay: 910ms;
 }
 
+.hero-section.is-about-active .about-skill-item.is-falling {
+  animation: skillRowTilt 1800ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-section.is-about-active .about-skill-item.is-tilt-complete {
+  animation: none;
+  opacity: 1;
+  clip-path: none;
+  filter: none;
+  transform: none;
+}
+
 @keyframes aboutTextReveal {
   from {
     opacity: 0;
@@ -1946,6 +1962,24 @@ body.is-lightbox-open {
   }
 }
 
+@keyframes skillRowTilt {
+  0% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+
+  42% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(-18deg) rotateZ(-2.6deg);
+  }
+
+  68% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(5deg) rotateZ(0.7deg);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-section.is-about-active .about-section-label,
   .hero-section.is-about-active .about-copy,
@@ -1960,6 +1994,10 @@ body.is-lightbox-open {
   }
 
   .about-copy-cta-text::after {
+    animation: none;
+  }
+
+  .hero-section.is-about-active .about-skill-item.is-falling {
     animation: none;
   }
 }
